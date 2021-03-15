@@ -1512,8 +1512,14 @@ namespace Obfuscar
                 var module = info.Definition.MainModule;
                 var attribute = new TypeReference("System.Runtime.CompilerServices", "SuppressIldasmAttribute", module,
                     module.TypeSystem.CoreLibrary).Resolve();
-                if (attribute == null || attribute.Module != module.TypeSystem.CoreLibrary)
+
+                if (attribute == null)
                     return;
+
+                // Something liks this was added in the master repo, but it doesn't work
+                //if (attribute == null || attribute.Module.TypeSystem.CoreLibrary.Name != module.TypeSystem.CoreLibrary.Name) return;
+                LogOutput("attribute.Module.TypeSystem.CoreLibrary.Name=" + attribute.Module.TypeSystem.CoreLibrary.Name);
+                LogOutput("module.TypeSystem.CoreLibrary.Name=" + module.TypeSystem.CoreLibrary.Name);
 
                 CustomAttribute found = module.CustomAttributes.FirstOrDefault(existing =>
                     existing.Constructor.DeclaringType.FullName == attribute.FullName);
