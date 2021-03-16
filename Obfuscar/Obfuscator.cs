@@ -1514,9 +1514,12 @@ namespace Obfuscar
                     module.TypeSystem.CoreLibrary).Resolve();
 
                 if (attribute == null)
-                    return;
+                {
+                    LogOutput($"Failed to resolve SuppressIldasmAttribute inside {module.Name}");
+                    continue;
+                }
 
-                // Something liks this was added in the master repo, but it doesn't work
+                // Something like this was added in the master repo, but it doesn't work
                 //if (attribute == null || attribute.Module.TypeSystem.CoreLibrary.Name != module.TypeSystem.CoreLibrary.Name) return;
                 LogOutput("attribute.Module.TypeSystem.CoreLibrary.Name=" + attribute.Module.TypeSystem.CoreLibrary.Name);
                 LogOutput("module.TypeSystem.CoreLibrary.Name=" + module.TypeSystem.CoreLibrary.Name);
@@ -1526,7 +1529,10 @@ namespace Obfuscar
 
                 //Only add if it's not there already
                 if (found != null)
+                {
+                    LogOutput("Failed to resolve SuppressIldasmAttribute");
                     continue;
+                }
 
                 //Add one
                 var add = module.ImportReference(attribute.GetConstructors().FirstOrDefault(item => !item.HasParameters));
