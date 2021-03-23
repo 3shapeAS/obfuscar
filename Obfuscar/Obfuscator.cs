@@ -1521,8 +1521,6 @@ namespace Obfuscar
 
                 // Something like this was added in the master repo, but it doesn't work
                 //if (attribute == null || attribute.Module.TypeSystem.CoreLibrary.Name != module.TypeSystem.CoreLibrary.Name) return;
-                LogOutput("attribute.Module.TypeSystem.CoreLibrary.Name=" + attribute.Module.TypeSystem.CoreLibrary.Name);
-                LogOutput("module.TypeSystem.CoreLibrary.Name=" + module.TypeSystem.CoreLibrary.Name);
 
                 CustomAttribute found = module.CustomAttributes.FirstOrDefault(existing =>
                     existing.Constructor.DeclaringType.FullName == attribute.FullName);
@@ -1530,7 +1528,7 @@ namespace Obfuscar
                 //Only add if it's not there already
                 if (found != null)
                 {
-                    LogOutput("Failed to resolve SuppressIldasmAttribute");
+                    LogOutput($"SuppressIldasmAttribute already exists for {module.Name}");
                     continue;
                 }
 
