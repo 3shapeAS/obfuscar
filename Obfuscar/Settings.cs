@@ -43,6 +43,7 @@ namespace Obfuscar
             RenameEvents = XmlConvert.ToBoolean(vars.GetValue("RenameEvents", "true"));
             KeepPublicApi = XmlConvert.ToBoolean(vars.GetValue("KeepPublicApi", "true"));
             HidePrivateApi = XmlConvert.ToBoolean(vars.GetValue("HidePrivateApi", "true"));
+            IgnoreAssemblyExcludeAttribute = XmlConvert.ToBoolean(vars.GetValue("IgnoreAssemblyExcludeAttribute", "false"));
             ReuseNames = XmlConvert.ToBoolean(vars.GetValue("ReuseNames", "true"));
             UseUnicodeNames = XmlConvert.ToBoolean(vars.GetValue("UseUnicodeNames", "false"));
             UseKoreanNames = XmlConvert.ToBoolean(vars.GetValue("UseKoreanNames", "false"));
@@ -71,9 +72,22 @@ namespace Obfuscar
 
         public bool RenameEvents { get; }
 
+        /// <summary>
+        /// True to exclude public API from obfuscation, false to obfuscate public API.
+        /// This will be overridden by the Exclude parameter in any assembly level Obfusscation attribute.
+        /// </summary>
         public bool KeepPublicApi { get; }
 
+        /// <summary>
+        /// True to obfuscate private members, false not to obfuscate.
+        /// This will be overridden by the Exclude parameter in any assembly level Obfusscation attribute.
+        /// </summary>
         public bool HidePrivateApi { get; }
+
+        /// <summary>
+        /// True to ignore any assembly level Obfusscation attribute and use the KeepPublicApi/HidePrivateApi settings only.
+        /// </summary>
+        public bool IgnoreAssemblyExcludeAttribute { get; }
 
         public bool ReuseNames { get; }
 

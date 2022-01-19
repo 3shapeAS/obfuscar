@@ -385,6 +385,11 @@ namespace Obfuscar
             foreach(var customattribute in Definition.CustomAttributes.Where(
                 ca => ca.AttributeType?.FullName == "System.Reflection.ObfuscationAttribute" && ca.HasProperties))
             {
+                if (project.Settings.IgnoreAssemblyExcludeAttribute)
+                {
+                    Console.WriteLine("Ignoring " + Definition.Name + " assembly Obfuscation attribute based on IgnoreAssemblyExcludeAttribute setting");
+                    break;
+                }
                 var excludeProp = customattribute.Properties.FirstOrDefault(p => p.Name == "Exclude");
                 var excludeValue = (bool?)excludeProp.Argument.Value;
                 if (excludeValue == true)
