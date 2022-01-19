@@ -984,7 +984,7 @@ namespace Obfuscar
 
             if (method.DeclaringType.ImplementsInterface("System.Windows.IInputElement"))
             {
-                message = "WPF control";
+                message = "declaring type is WPF control";
                 return true;
             }
 
@@ -1238,6 +1238,12 @@ namespace Obfuscar
             if (prop.Property.IsPublic() && prop.DeclaringType.ImplementsInterface("System.ComponentModel.INotifyPropertyChanged"))
             {
                 message = "declaring type implements INotifyPropertyChanged";
+                return true;
+            }
+
+            if (prop.DeclaringType.ImplementsInterface("System.Windows.IInputElement"))
+            {
+                message = "declaring type is WPF control";
                 return true;
             }
 
