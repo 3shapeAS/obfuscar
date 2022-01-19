@@ -982,6 +982,12 @@ namespace Obfuscar
                 }
             }
 
+            if (method.DeclaringType.ImplementsInterface("System.Windows.IInputElement"))
+            {
+                message = "WPF control";
+                return true;
+            }
+
             return ShouldSkipParams(method, map, markedOnly, out message);
         }
 
