@@ -387,7 +387,7 @@ namespace Obfuscar
             {
                 if (project.Settings.IgnoreAssemblyExcludeAttribute)
                 {
-                    Console.WriteLine("Ignoring " + Definition.Name + " assembly Obfuscation attribute based on IgnoreAssemblyExcludeAttribute setting");
+                    Console.WriteLine("Ignoring " + Definition.Name.Name + " assembly Obfuscation attribute based on IgnoreAssemblyExcludeAttribute setting");
                     break;
                 }
                 var excludeProp = customattribute.Properties.FirstOrDefault(p => p.Name == "Exclude");
@@ -395,12 +395,12 @@ namespace Obfuscar
                 if (excludeValue == true)
                 {
                     skipAllOverride = true;
-                    Console.WriteLine("Disabling obfuscation of " + Definition.Name + " based on assembly attribute");
+                    Console.WriteLine("Disabling obfuscation of " + Definition.Name.Name + " based on assembly attribute");
                 }
                 else if (excludeValue == false)
                 {
                     forceAllOverride = true;
-                    Console.WriteLine("Enabling full obfuscation of " + Definition.Name + " based on assembly attribute");
+                    Console.WriteLine("Enabling full obfuscation of " + Definition.Name.Name + " based on assembly attribute");
                 }
             }
 
