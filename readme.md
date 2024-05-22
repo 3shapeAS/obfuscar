@@ -41,4 +41,4 @@ If you want to donate to my efforts on this project, please use the following li
 /Master - Not to be changed in 3Shape - should be kept in sync with the fork origin.
 
 
-Build link: https://jenkins.3shape.local/job/Sandbox/job/obfuscar/
+Build link: https://jenkins.3shape.local/job/obfuscar/
