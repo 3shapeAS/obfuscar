@@ -24,6 +24,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B2A0589A-CCAD-4BA1-97AD-771424706E0D}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitignore = .gitignore
 		Obfuscar.nuspec = Obfuscar.nuspec
 		readme.md = readme.md
 		test.bat = test.bat
@@ -35,7 +36,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Baml", "Baml\Baml.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObfuscarTest.FluentAssertions", "ObfuscarTest.FluentAssertions\ObfuscarTest.FluentAssertions.csproj", "{F608F808-617E-4F16-8C9D-E6A6A401A5EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObfuscarTestNet", "ObfuscarTestNet\ObfuscarTestNet.csproj", "{463CE737-FEBF-4B48-96AF-374B9D2D1A11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObfuscarTestNet", "ObfuscarTestNet\ObfuscarTestNet.csproj", "{463CE737-FEBF-4B48-96AF-374B9D2D1A11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

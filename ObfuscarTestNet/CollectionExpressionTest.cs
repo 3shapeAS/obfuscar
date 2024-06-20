@@ -1,5 +1,4 @@
 ﻿using ObfuscarTestNet;
-using ObfuscarTestNet.Input;
 using System;
 using System.IO;
 using System.Linq;
@@ -24,7 +23,7 @@ namespace ObfuscarTest
                 @"<Module file='$(InPath){2}AssemblyWithCollectionExpression.dll'/>" +
                 @"</Obfuscator>", TestHelper.InputPath, outputPath, Path.DirectorySeparatorChar);
 
-            var output = TestHelper.BuildAndObfuscate(["AssemblyWithCollectionArgument", "AssemblyWithCollectionExpression"], xml);
+            var output = TestHelper.BuildAndObfuscate(new[] { "AssemblyWithCollectionArgument", "AssemblyWithCollectionExpression" }, xml);
 
             var assembly1 = Assembly.LoadFrom(Path.GetFullPath(Path.Combine(outputPath, "AssemblyWithCollectionArgument.dll")));
             var assembly2 = Assembly.LoadFrom(Path.GetFullPath(Path.Combine(outputPath, "AssemblyWithCollectionExpression.dll")));
@@ -35,7 +34,7 @@ namespace ObfuscarTest
             var instance = Activator.CreateInstance(type);
 
             var obfuscatedMethodName = obfuscatedClass.Value.Methods.First(m => m.Value.Name.EndsWith("Test[0]")).Value.StatusText;
-            type.GetMethod(obfuscatedMethodName)!.Invoke(instance, []);
+            type.GetMethod(obfuscatedMethodName)!.Invoke(instance, null);
         }
     }
 }
