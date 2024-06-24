@@ -33,7 +33,6 @@ namespace ObfuscarTestNet
             var outPath = Path.ChangeExtension(fileName, "dll");
             var compilationResult = compilation.Emit(outPath);
 
-
             // Compilation Error handling
             if (!compilationResult.Success)
                 throw new Exception(string.Join("\n", compilationResult.Diagnostics));
@@ -103,12 +102,9 @@ namespace ObfuscarTestNet
                 runtimePath + "System.Private.CoreLib.dll",
                 runtimePath + "System.Runtime.dll",
                 runtimePath + "System.Console.dll",
-                runtimePath + "netstandard.dll",
-
-                runtimePath + "System.Text.RegularExpressions.dll", // IMPORTANT!
+                runtimePath + "System.Text.RegularExpressions.dll",
                 runtimePath + "System.Linq.dll",
-                runtimePath + "System.Linq.Expressions.dll", // IMPORTANT!
-
+                runtimePath + "System.Linq.Expressions.dll",
                 runtimePath + "System.IO.dll",
                 runtimePath + "System.Net.Primitives.dll",
                 runtimePath + "System.Net.Http.dll",
@@ -118,11 +114,9 @@ namespace ObfuscarTestNet
                 runtimePath + "System.Globalization.dll",
                 runtimePath + "System.Collections.Concurrent.dll",
                 runtimePath + "System.Collections.NonGeneric.dll",
-                runtimePath + "Microsoft.CSharp.dll"
+                runtimePath + "Microsoft.CSharp.dll",
+                runtimePath + "netstandard.dll"
             );
-
-            // this library and CodeAnalysis libs
-            //AddAssembly(GetType()); // Scripting Library
         }
     }
 }
