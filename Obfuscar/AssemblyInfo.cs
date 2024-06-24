@@ -86,12 +86,6 @@ namespace Obfuscar
         {
             AssemblyInfo info = new AssemblyInfo(project);
 
-            // Anonymous type obfuscation does not work
-            info.skipTypes.Add(new TypeTester("*AnonymousType*", TypeAffectFlags.AffectProperty | TypeAffectFlags.AffectMethod | 
-                TypeAffectFlags.AffectField | TypeAffectFlags.AffectEvent | TypeAffectFlags.AffectString, "", "", null, null));
-            // The collection expression syntax [] will generate a readonly array type in the IL which fail across assemblies if obfuscated
-            info.skipTypes.Add(new TypeTester("*__ReadOnlyArray*", TypeAffectFlags.AffectField, "", "", null, null));
-
             // pull out the file attribute, but don't process anything empty
             string val = Helper.GetAttribute(reader, "file", vars);
             if (val.Length > 0)
@@ -1137,6 +1131,12 @@ namespace Obfuscar
                 return true;
             }
 
+            if (field.TypeKey.Name.Contains("__ReadOnlyArray") || field.TypeKey.Name.Contains("__ReadOnlySingleElementList"))
+            {
+                message = "collection expression";
+                return true;
+            }
+
             if (ShouldSkip(field.TypeKey, TypeAffectFlags.AffectField, map))
             {
                 message = $"type rule in configuration ({field.TypeKey})";
@@ -1274,17 +1274,17 @@ namespace Obfuscar
             return !HidePrivateApi;
         }
 
-        public bool ShouldSkip(EventKey evt, InheritMap map, bool markedOnly,
+        public bool ShouldSkip(EventKey evnt, InheritMap map, bool markedOnly,
             out string message)
         {
             // skip runtime special events
-            if (evt.Event.IsRuntimeSpecialName)
+            if (evnt.Event.IsRuntimeSpecialName)
             {
                 message = "runtime special name";
                 return true;
             }
 
-            var attribute = evt.Event.MarkedToRename();
+            var attribute = evnt.Event.MarkedToRename();
             // skip runtime methods
             if (attribute != null)
             {
@@ -1292,7 +1292,7 @@ namespace Obfuscar
                 return !attribute.Value;
             }
 
-            var parent = evt.DeclaringType.MarkedToRename();
+            var parent = evnt.DeclaringType.MarkedToRename();
             if (parent != null)
             {
                 message = "type attribute";
@@ -1305,34 +1305,34 @@ namespace Obfuscar
                 return true;
             }
 
-            if (ShouldForce(evt.TypeKey, TypeAffectFlags.AffectEvent, map))
+            if (ShouldForce(evnt.TypeKey, TypeAffectFlags.AffectEvent, map))
             {
-                message = $"type rule in configuration ({evt.TypeKey})";
+                message = $"type rule in configuration ({evnt.TypeKey})";
                 return false;
             }
 
-            if (forceEvents.IsMatch(evt, map))
+            if (forceEvents.IsMatch(evnt, map))
             {
                 message = "event rule in configuration";
                 return false;
             }
 
-            if (ShouldSkip(evt.TypeKey, TypeAffectFlags.AffectEvent, map))
+            if (ShouldSkip(evnt.TypeKey, TypeAffectFlags.AffectEvent, map))
             {
-                message = $"type rule in configuration ({evt.TypeKey})";
+                message = $"type rule in configuration ({evnt.TypeKey})";
                 return true;
             }
 
-            if (skipEvents.IsMatch(evt, map))
+            if (skipEvents.IsMatch(evnt, map))
             {
                 message = "event rule in configuration";
                 return true;
             }
 
-            if (evt.Event.IsPublic() && (
-                evt.DeclaringType.IsTypePublic() ||
-                evt.Event.AddMethod != null && map.GetMethodGroup(new MethodKey(evt.Event.AddMethod))?.Methods?.FirstOrDefault(m => m.DeclaringType.IsTypePublic()) != null ||
-                evt.Event.RemoveMethod != null && map.GetMethodGroup(new MethodKey(evt.Event.RemoveMethod))?.Methods?.FirstOrDefault(m => m.DeclaringType.IsTypePublic()) != null
+            if (evnt.Event.IsPublic() && (
+                evnt.DeclaringType.IsTypePublic() ||
+                evnt.Event.AddMethod != null && map.GetMethodGroup(new MethodKey(evnt.Event.AddMethod))?.Methods?.FirstOrDefault(m => m.DeclaringType.IsTypePublic()) != null ||
+                evnt.Event.RemoveMethod != null && map.GetMethodGroup(new MethodKey(evnt.Event.RemoveMethod))?.Methods?.FirstOrDefault(m => m.DeclaringType.IsTypePublic()) != null
             ))
             {
                 message = KeepPublicApiOptionInConfiguration;
