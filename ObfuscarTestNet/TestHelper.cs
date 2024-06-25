@@ -18,19 +18,6 @@ namespace ObfuscarTestNet
             get { return Path.Combine("..", "..", "Output", count++.ToString()); }
         }
 
-        public static void CleanInput()
-        {
-            // clean out inputPath
-            try
-            {
-                //foreach (string file in Directory.GetFiles(InputPath, "*.dll"))
-                //File.Delete(file);
-            }
-            catch
-            {
-            }
-        }
-
         public static string BuildAssembly(string name, params string[] references)
         {
             var builder = new SourceBuilder();
@@ -73,14 +60,12 @@ namespace ObfuscarTestNet
 
         public static Obfuscar.Obfuscator BuildAndObfuscate(string name, string xml, bool hideStrings = false)
         {
-            CleanInput();
             BuildAssembly(name);
             return Obfuscate(xml, hideStrings);
         }
 
         public static Obfuscar.Obfuscator BuildAndObfuscate(string[] names, string xml)
         {
-            CleanInput();
             BuildAssemblies(names);
             return Obfuscate(xml);
         }
