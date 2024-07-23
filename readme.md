@@ -40,5 +40,5 @@ If you want to donate to my efforts on this project, please use the following li
 
 /Master - Not to be changed in 3Shape - should be kept in sync with the fork origin.
 
-
-Build link: https://jenkins.3shape.local/job/obfuscar/
+Build Link: https://github.com/3shape/obfuscar/actions
+Release link: https://github.com/3ShapeInternal/ThreeShape.Obfuscar.Release
