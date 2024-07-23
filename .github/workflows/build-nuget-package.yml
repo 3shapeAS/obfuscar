@@ -10,7 +10,6 @@ on:
 env:
   ProjectFolder: 'Obfuscar'
   SolutionFile: 'Obfuscar.sln'
-  VsTestExecutable: 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe'
   NugetPackOutputDir: 'nuget-pack-out'
   configuration: 'Release'
 
