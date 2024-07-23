@@ -1,0 +1,65 @@
+name: Build & Test Obfuscar
+
+on:
+  pull_request:
+    branches:
+      - master
+      - ThreeShape.Obfuscar
+      - 3shape
+
+env:
+  ProjectFolder: 'Obfuscar'
+  SolutionFile: 'Obfuscar.sln'
+  VsTestExecutable: 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe'
+  NugetPackOutputDir: 'nuget-pack-out'
+  configuration: 'Release'
+
+jobs:
+  build-project:
+      runs-on: windows-2022
+      timeout-minutes: 10
+      steps:
+
+        - name: Dotnet info
+          run: dotnet --info
+
+        - name: Checkout
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+            submodules: 'recursive'
+
+        - name: Setup NuGet.exe
+          uses: nuget/setup-nuget@v2
+
+
+        - name: Nuget restore project
+          shell: pwsh
+          run: |
+            nuget restore ${{ env.SolutionFile }}
+
+        - name: Add msbuild to PATH
+          uses: microsoft/setup-msbuild@v2
+
+        - name: Build project
+          shell: pwsh
+          run: |
+            msbuild ${{ env.SolutionFile }} -p:Configuration=${{ env.configuration }} `
+              -m:1 `
+              -nr:false
+
+        - name: Run unit tests
+          shell: pwsh
+          run: |
+            $testFiles = Get-ChildItem -Path . -Filter "*test.dll" -Recurse | ForEach-Object { $_.FullName }
+            foreach ($testFile in $testFiles) {
+              dotnet test $testFile --logger trx
+            }
+
+        - name: Publish test results
+          uses: phoenix-actions/test-reporting@v15
+          with:
+            name: 'VsTest report results'
+            path: '**/*.trx'
+            reporter: 'dotnet-trx'
+            output-to: 'step-summary'
