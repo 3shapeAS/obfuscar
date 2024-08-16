@@ -18,7 +18,6 @@ jobs:
       runs-on: windows-2022
       timeout-minutes: 10
       steps:
-
         - name: Dotnet info
           run: dotnet --info
 
@@ -30,7 +29,6 @@ jobs:
 
         - name: Setup NuGet.exe
           uses: nuget/setup-nuget@v2
-
 
         - name: Nuget restore project
           shell: pwsh
