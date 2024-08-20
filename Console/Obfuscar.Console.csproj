@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- Import and sign obfuscar console executable if not running local: JENKINS_URL is set on build agent -->
+  <!-- Import and sign obfuscar console executable if not running local: GITHUB_ACTIONS is set on build agent -->
   <PropertyGroup>
     <TrueValue>true</TrueValue>
-    <IsLocalRun Condition="'$(JENKINS_URL)' == ''">$(TrueValue)</IsLocalRun>
+    <IsLocalRun Condition="'$(GITHUB_ACTIONS)' != 'true'">$(TrueValue)</IsLocalRun>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\BuildTools\ThreeShape.MSBuild.ObfuscateAndSign\build\ThreeShape.MSBuild.ObfuscateAndSign.targets" Condition="'$(IsLocalRun)' != '$(TrueValue)'" />
   <Target Name="SignObfuscarConsoleExecutableAssembly" AfterTargets="RepackWithILOnWindows;RepackWithILOnNonWindows" Condition="'$(IsLocalRun)' != '$(TrueValue)'">
