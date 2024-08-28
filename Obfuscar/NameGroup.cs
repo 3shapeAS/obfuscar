@@ -37,13 +37,13 @@ namespace Obfuscar
 
         HashSet<string> names = new HashSet<string>();
 
-        public string GetNext()
+        public string GetNext(string originalName)
         {
             int index = _random.Next(20);
             string name;
             for (;;)
             {
-                name = NameMaker.Instance.UniqueName(index++);
+                name = NameMaker.Instance.UniqueName(index++, null, originalName);
                 if (!names.Contains(name))
                     return name;
             }
@@ -72,14 +72,14 @@ namespace Obfuscar
             names.Remove(name);
         }
 
-        public static string GetNext(IEnumerable<NameGroup> groups)
+        public static string GetNext(IEnumerable<NameGroup> groups, string originalName)
         {
             int index = 0;
 
             string name;
             for (;;)
             {
-                name = NameMaker.Instance.UniqueName(index++);
+                name = NameMaker.Instance.UniqueName(index++, null, originalName);
 
                 bool contained = false;
                 foreach (NameGroup group in groups)
